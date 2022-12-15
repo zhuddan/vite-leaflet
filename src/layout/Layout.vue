@@ -39,7 +39,7 @@ createAppProviderContext({
   <v-locale-provider :locale="locale">
     <v-app>
       <LayoutHeader />
-      <LayoutSidebar />
+      <!-- <LayoutSidebar /> -->
       <LayoutMain />
       <LayoutFooter />
     </v-app>
