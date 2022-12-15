@@ -1,8 +1,9 @@
 import type { App } from 'vue';
 
-// import { useShareElement } from './share-element';
-
+import { registerGlobComp } from './registerGlobComp';
+import { registerVuetifyPlugin } from './vuetify';
 export function registerPlugins(app: App) {
-  // useShareElement(app);
-  app;
+  registerGlobComp(app);
+  registerVuetifyPlugin(app);
+  return app;
 }
