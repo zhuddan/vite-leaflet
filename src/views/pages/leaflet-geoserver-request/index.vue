@@ -3,22 +3,22 @@ import { cities } from '@/libs/cities';
 import L from '@/leaflet';
 import { useLeafletMap } from '@/hooks/map/useLeafletMap';
 const mapRef = ref();
-useLeafletMap(mapRef, init);
-function init(map: L.Map) {
-  const collisionLayer = L.LayerGroup.collision({ margin: 5 });
-  for (let i = 0; i < cities.features.length; i++) {
-    const feat = cities.features[i];
-    const labelClass = `city-label city-label-${feat.properties.scalerank}`;
-    const marker = L.marker(L.GeoJSON.coordsToLatLng(feat.geometry.coordinates as any), {
-      icon: L.divIcon({
-        html: `<span class='${labelClass}'>${feat.properties.name}</span>`,
-      }),
-      interactive: false,
-    });
-    collisionLayer.addLayer(marker);
-  }
-  collisionLayer.addTo(map);
+
+function init() {
+  const center = L.latLng(24.81, 102.4);
+  const map = L.map(mapRef.value!, {
+    zoom: 10,
+    center,
+    preferCanvas: true,
+    attributionControl: false,
+  });
+  const wmsLayer = L.Geoserver.wms('http://localhost:9999/geoserver/yun-nan/wms', {
+    layers: 'yun-nan:yn',
+  });
+
+  wmsLayer.addTo(map);
 }
+onMounted(init);
 </script>
 
 <template>

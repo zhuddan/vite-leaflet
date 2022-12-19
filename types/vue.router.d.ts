@@ -6,5 +6,6 @@ declare module 'vue-router' {
     auth?: boolean;
     hidden?: boolean;
     active?: string;
+    link?: string;
   }
 }

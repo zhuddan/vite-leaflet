@@ -18,6 +18,7 @@
     "@vueuse/core": "^8.9.4",
     "axios": "^0.27.2",
     "leaflet": "^1.9.3",
+    "leaflet-geoserver-request": "^1.2.2",
     "leaflet.layergroup.collision": "^0.3.1",
     "lodash-es": "^4.17.21",
     "path-browserify": "^1.0.1",

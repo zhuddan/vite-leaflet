@@ -13,7 +13,10 @@ import { AppBar, AppDrawer, AppFooter } from '@/components/App';
         fluid
         tag="section"
       >
-        <router-view />
+        <div class="fill-height d-flex flex-column ">
+          <AppTitle />
+          <router-view />
+        </div>
       </v-container>
     </v-main>
     <AppFooter />

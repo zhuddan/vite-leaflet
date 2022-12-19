@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import Link from './Link.vue';
-defineProps({
-  link: {
-    type: String,
-  },
-});
 defineOptions({
   name: 'AppTitle',
 });
 const route = useRoute();
 const title = computed(() => route.meta.title);
+const link = computed(() => route.meta.link);
 </script>
 
 <template>

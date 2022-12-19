@@ -1,3 +1,4 @@
+import L from 'leaflet';
 declare module 'leaflet' {
   namespace LayerGroup {
     class Collision extends LayerGroup {

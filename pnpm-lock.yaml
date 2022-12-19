@@ -29,6 +29,7 @@ specifiers:
   fs-extra: ^10.1.0
   inquirer: ^9.1.4
   leaflet: ^1.9.3
+  leaflet-geoserver-request: ^1.2.2
   leaflet.layergroup.collision: ^0.3.1
   lodash-es: ^4.17.21
   path-browserify: ^1.0.1
@@ -63,6 +64,7 @@ dependencies:
   '@vueuse/core': 8.9.4_vue@3.2.45
   axios: 0.27.2
   leaflet: 1.9.3
+  leaflet-geoserver-request: 1.2.2
   leaflet.layergroup.collision: 0.3.1
   lodash-es: 4.17.21
   path-browserify: 1.0.1
@@ -2902,6 +2904,10 @@ packages:
   /known-css-properties/0.26.0:
     resolution: {integrity: sha512-5FZRzrZzNTBruuurWpvZnvP9pum+fe0HcK8z/ooo+U+Hmp4vtbyp1/QDsqmufirXy4egGzbaH/y2uCZf+6W5Kg==}
     dev: true
+
+  /leaflet-geoserver-request/1.2.2:
+    resolution: {integrity: sha512-SBMx4I9ukXaAQfhMk7upZOaA9UUBEKlbQPk5THYydPraav4DzrYaYElVbslHXeNmP62W1lnjGSmGVl8BciyGWg==}
+    dev: false
 
   /leaflet.layergroup.collision/0.3.1:
     resolution: {integrity: sha512-O0p580K1lQjhIDGA4u/h+tPqjuql9PipLrr3cgNHubH0b2M2+XvgHwkzd9CtjrpKBY/7XKvDwCMQAXpC2QUERw==}
