@@ -31,10 +31,7 @@
   @include text_overflow_(3);
 }
 
-.text-overflow-4 {
-  @include text_overflow_(4);
-}
-
-.text-overflow-5 {
-  @include text_overflow_(5);
+.page {
+  height: 100%;
+  display: flex;
 }

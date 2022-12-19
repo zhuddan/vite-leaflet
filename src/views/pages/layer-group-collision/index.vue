@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import Map from './map.vue';
+const link = 'https://github.com/MazeMap/Leaflet.LayerGroup.Collision';
 </script>
 
 <template>
-  <v-container>
-    <v-card>
-      <Map />
-    </v-card>
-  </v-container>
+  <div class="fill-height d-flex flex-column ">
+    <AppTitle :link="link" />
+    <Map />
+  </div>
 </template>
 
 <style scoped>

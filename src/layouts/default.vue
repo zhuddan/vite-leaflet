@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import AppBar from '@/components/App/Bar/AppBar.vue';
-import AppDrawer from '@/components/App/Drawer/AppDrawer.vue';
+import { AppBar, AppDrawer, AppFooter } from '@/components/App';
 </script>
 
 <template>
   <v-app>
     <AppBar />
     <AppDrawer />
+
     <v-main>
-      <router-view />
+      <v-container
+        class="pa-4 pa-sm-6 pa-md-8 fill-height"
+        fluid
+        tag="section"
+      >
+        <router-view />
+      </v-container>
     </v-main>
+    <AppFooter />
   </v-app>
 </template>
 

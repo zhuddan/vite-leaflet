@@ -10,7 +10,10 @@ import { configVisualizerConfig } from './plugins/visualizer';
 export function createVitePlugins(isBuild: boolean) {
   const vitePlugins: (PluginOption | PluginOption[])[] = [];
   // base
-  vitePlugins.push(vue());
+  vitePlugins.push(vue({
+    include: [/\.vue$/, /\.md$/],
+  }));
+  // md;
   vitePlugins.push(DefineOptions());
   vitePlugins.push(createAutoImportPlugin());
   // svg

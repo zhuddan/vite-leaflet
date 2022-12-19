@@ -1,25 +1,10 @@
 <script setup lang="ts">
 import { cities } from '@/libs/cities';
-// import yn_border from '@/libs/yn_border.json';
 import L from '@/leaflet';
+import { useLeafletMap } from '@/hooks/map/useLeafletMap';
 const mapRef = ref();
-function init() {
-  const center = L.latLng(24.81, 102.4),
-    corner1 = L.latLng(21.09375, 97.470703125),
-    corner2 = L.latLng(29.267578125, 106.259765625) ;
-  const map = L.map(mapRef.value!, {
-    minZoom: 2,
-    center,
-    maxBounds: L.latLngBounds(corner1, corner2),
-    preferCanvas: true,
-  });
-  map.fitBounds(L.latLngBounds(corner1, corner2));
-  const layer = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '',
-  });
-  // L.geoJSON(yn_border as any).addTo(map);
-  layer.addTo(map);
+useLeafletMap(mapRef, init);
+function init(map: L.Map) {
   const collisionLayer = L.LayerGroup.collision({ margin: 5 });
   for (let i = 0; i < cities.features.length; i++) {
     const feat = cities.features[i];
@@ -34,11 +19,10 @@ function init() {
   }
   collisionLayer.addTo(map);
 }
-onMounted(init);
 </script>
 
 <template>
-  <div ref="mapRef" class="map-container">
+  <div ref="mapRef" class="map-container flex-fill">
   </div>
 </template>
 

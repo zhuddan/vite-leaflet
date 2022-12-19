@@ -5,7 +5,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
   {
     path: 'layer-group-collision',
     meta: {
-      title: 'layer-group-collision',
+      title: 'layer.group.collision',
     },
     component: () => import('@/views/pages/layer-group-collision/index.vue'),
   },

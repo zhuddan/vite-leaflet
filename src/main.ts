@@ -3,13 +3,13 @@ import '@/style/index.scss';
 import router, { setupRouter } from '@/router';
 import { setupRouterGuard } from '@/router/setupRouterGuard';
 import { setupStore } from '@/store';
-
 import App from './App.vue';
 import { registerPlugins } from './plugins';
 import { initStore } from './store/initStore';
 
 function __init__() {
   const app = createApp(App);
+  // app.use(head);
   // 注册 store
   setupStore(app);
   // 初始化 store
