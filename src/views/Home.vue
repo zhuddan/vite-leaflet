@@ -6,14 +6,14 @@ import logoImg from '@/assets/logo.png';
   <v-container>
     <div class="pt-5">
       <v-img class="mx-auto" :src="logoImg" width="300" height="300" />
-      <h3 id="desc" class="text-h1 mt-10 mb-10 text-center">
+      <h3 id="desc" class="text-h3 mt-10 mb-10 text-center">
         一些<a
           class="leafletjs-logo-link"
           target="_blank"
           href="https://leafletjs.com/"
         >
           <img
-            alt="leafletjs-logo"
+            alt="leafletjs"
             class="leafletjs-logo"
             src="https://leafletjs.com/docs/images/logo-ua.png"
           >
@@ -51,7 +51,7 @@ import logoImg from '@/assets/logo.png';
 
 .leafletjs-logo{
   display: inline-block;
-  height: 6rem;
+  height: 3rem ;
   vertical-align: bottom;
   aspect-ratio: 6/1.69;
 }

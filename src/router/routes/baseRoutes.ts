@@ -1,30 +1,26 @@
 import type { RouteRecordRaw } from 'vue-router';
-
-export const homeRoutes: RouteRecordRaw = {
-  path: '/',
-  meta: {
-    title: 'Home',
-    auth: false,
-  },
-  component: () => import('@/views/Home.vue'),
-};
+import { asyncRoutes } from './asyncRoutes';
 
 export const baseRoutes: RouteRecordRaw[] = [
-  homeRoutes,
   {
-    path: '/login',
-    meta: {
-      title: '登录',
-      auth: false,
-    },
-    component: () => import('@/views/Login.vue'),
+    path: '/',
+    component: () => import('@/layouts/home.vue'),
+    children: [
+      {
+        path: '/',
+        meta: {
+          title: 'Home',
+          auth: false,
+        },
+        component: () => import('@/views/Home.vue'),
+      },
+    ],
   },
   {
-    path: '/redirect/:path(.*)',
-    meta: {
-      auth: false,
-    },
-    component: () => import('@/views/redirect.vue'),
+    path: '/lp',
+    component: () => import('@/layouts/default.vue'),
+    redirect: '/lp/layer-group-collision',
+    children: asyncRoutes,
   },
   {
     path: '/:path(.*)',

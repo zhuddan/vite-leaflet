@@ -39,6 +39,5 @@
     "types/**/*.tsx",
     "types/**/*.vue",
     "build/**/*.ts",
-    "build/**/*.d.ts"
-  ]
+    "build/**/*.d.ts" ]
 }
