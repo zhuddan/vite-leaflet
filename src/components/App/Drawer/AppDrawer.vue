@@ -16,6 +16,7 @@ function isActive(itemPath: string) {
         :key="i"
         :value="item.path"
         active-color="primary"
+        color="red"
         :to="`/lp/${item.path}`"
         :active="isActive(item.path)"
         link

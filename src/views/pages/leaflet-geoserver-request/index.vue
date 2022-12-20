@@ -9,7 +9,8 @@ function init() {
     preferCanvas: true,
     attributionControl: false,
   });
-  const wmsLayer = L.Geoserver.wms('http://192.168.1.80:9999/geoserver/yun-nan/wms', {
+  const wmsUrl = 'http://192.168.1.80:9999/geoserver/yun-nan/wms';
+  const wmsLayer = L.Geoserver.wms(wmsUrl, {
     layers: 'yun-nan:yn',
   });
   wmsLayer.addTo(map);
