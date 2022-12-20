@@ -5,7 +5,7 @@ const { VITE_APP_TITLE } = useAppConfig();
 </script>
 
 <template>
-  <router-link to="/" class="d-flex align-center" style="text-decoration: none;">
+  <router-link to="/" class="d-flex align-center text-decoration-none">
     <v-img :src="logoImg" width="50" height="50" />
     <h2>
       {{ VITE_APP_TITLE }}
@@ -14,5 +14,4 @@ const { VITE_APP_TITLE } = useAppConfig();
 </template>
 
 <style scoped>
-
 </style>

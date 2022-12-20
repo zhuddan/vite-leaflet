@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { cities } from '@/libs/cities';
-import L from '@/leaflet';
+import L from 'leaflet';
 import yn_border from '@/libs/yn_border.json';
 const mapRef = ref();
-
+L.tileLayer;
 function init() {
   // const center = L.latLng(24.81, 102.4);
   const center = L.latLng(0, 0);

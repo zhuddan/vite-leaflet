@@ -9,10 +9,12 @@ function init() {
     preferCanvas: true,
     attributionControl: false,
   });
-  const wmsLayer = L.Geoserver.wms('http://192.168.1.80:9999/geoserver/yun-nan/wms', {
-    layers: 'yun-nan:yn',
+
+  const k = 'AmDsXBzY8Vh5E4NDfpjlGP4PfIt4fP8-Zv-dxLv3lIzAbqjYWq0Ysf4687hC0gja';
+  const bingLayer = L.tileLayer.bing(k, {
+    imagerySet: 'CanvasDark',
   });
-  wmsLayer.addTo(map);
+  bingLayer.addTo(map);
 }
 onMounted(init);
 </script>

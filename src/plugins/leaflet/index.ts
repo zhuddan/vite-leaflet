@@ -1,6 +1,5 @@
-import * as L from 'leaflet';
+import 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './plugins/leaflet.layergroup.collision';
 import './plugins/leaflet-geoserver-request';
-
-export default L;
+import './plugins/leaflet-bing-layer';

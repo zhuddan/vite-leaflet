@@ -15,7 +15,7 @@ import logoImg from '@/assets/logo.png';
           <img
             alt="leafletjs"
             class="leafletjs-logo"
-            src="https://leafletjs.com/docs/images/logo-ua.png"
+            src="@/assets/leaflet-logo.png"
           >
         </a>的demo。
       </h3>
@@ -27,7 +27,7 @@ import logoImg from '@/assets/logo.png';
         >
           <img
             class="openlayers-logo"
-            src="https://openlayers.org/theme/img/logo-dark.svg"
+            src="@/assets/openlayers.svg"
             alt=""
           >
           Openlayers

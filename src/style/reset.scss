@@ -17,3 +17,11 @@ body {
 .map-container {
   height: 600px;
 }
+
+a:visited {
+  color: rgb(var(--v-theme-primary));
+}
+
+a:active {
+  color: rgb(var(--v-theme-primary));
+}

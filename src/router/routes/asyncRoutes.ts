@@ -18,4 +18,12 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     component: () => import('@/views/pages/leaflet-geoserver-request/index.vue'),
   },
+  {
+    path: 'leaflet-bing-layer',
+    meta: {
+      title: 'leaflet-bing-layer',
+      link: 'https://github.com/digidem/leaflet-bing-layer',
+    },
+    component: () => import('@/views/pages/leaflet-bing-layer/index.vue'),
+  },
 ];
