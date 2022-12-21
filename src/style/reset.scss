@@ -18,10 +18,10 @@ body {
   height: 600px;
 }
 
-a:visited {
+a:not(.v-list-item--link):visited {
   color: rgb(var(--v-theme-primary));
 }
 
-a:active {
+a:not(.v-list-item--link):active {
   color: rgb(var(--v-theme-primary));
 }

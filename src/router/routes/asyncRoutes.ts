@@ -26,4 +26,12 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     component: () => import('@/views/pages/leaflet-bing-layer/index.vue'),
   },
+  {
+    path: 'yn',
+    meta: {
+      title: 'yn',
+      link: 'https://github.com/digidem/yn',
+    },
+    component: () => import('@/views/pages/yn/index.vue'),
+  },
 ];

@@ -14,6 +14,29 @@ function init() {
     layers: 'yun-nan:yn',
   });
   wmsLayer.addTo(map);
+
+  const popup = L.popup();
+
+  function onMapClick(e: any) {
+
+  }
+  function onLocationError(e: any) {
+    console.log(e.message);
+  }
+
+  map.on('locationerror', onLocationError);
+  function onLocationFound(e: any) {
+    const radius = e.accuracy;
+
+    L.marker(e.latlng).addTo(map)
+      .bindPopup(`You are within ${radius} meters from this point`).openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+  }
+
+  map.on('locationfound', onLocationFound);
+
+  map.on('mousemove', onMapClick);
 }
 onMounted(init);
 </script>
