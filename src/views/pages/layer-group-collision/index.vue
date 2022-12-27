@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { cities } from '@/libs/cities';
 import L from 'leaflet';
-import yn_border from '@/libs/yn_border.json';
+import axios from 'axios';
 const mapRef = ref();
 L.tileLayer;
-function init() {
+async function init() {
+  const yn_border = (await axios.get('/geoJson/yn_border.json.gz', { responseType: 'json', decompress: true })).data;
   // const center = L.latLng(24.81, 102.4);
   const center = L.latLng(0, 0);
   const map = L.map(mapRef.value!, {

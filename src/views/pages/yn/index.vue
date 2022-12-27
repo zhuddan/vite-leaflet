@@ -1,22 +1,36 @@
 <script setup lang="ts">
 import L, { GeoJSON } from 'leaflet';
-import yn_border from '@/libs/yn_border.json';
-import yn_city from '@/libs/yn_city.json';
-import yn_county from '@/libs/yn_county.json';
 import type { Datum } from './data';
 import { data } from './data';
-import { computedAsync } from '@vueuse/core';
-import LayerControl from './LayerControl';
+import axios from 'axios';
 const mapRef = ref();
-
+const pointLayer = new L.LayerGroup();
+let map: Nullable<L.Map> = null;
+let ynBorder: Nullable<L.GeoJSON> = null;
+let ynCity: Nullable<L.GeoJSON> = null;
+let ynCounty: Nullable<L.GeoJSON> = null;
+const yn_county_wrap = new L.LayerGroup().setZIndex(9),
+  yn_city_wrap = new L.LayerGroup().setZIndex(8),
+  yn_border_wrap = new L.LayerGroup().setZIndex(10);
+const isReady = ref(false);
 const result = ref<Record<number, Datum[]>>({});
 const level = ref(10);
-const currentPoint = computedAsync(
-  async () => {
-    return await getData();
-  },
-  [],
-);
+const currentPoint = ref<Datum[]>([]);
+
+async function getBoundsPoints() {
+  const data = await getData();
+  if (!map) {
+    currentPoint.value = data;
+    return;
+  }
+  const bounds = map.getBounds()!;
+  const { lng: minLng, lat: minLat } = bounds.getSouthWest();
+  const { lng: maxLng, lat: maxLat } = bounds.getNorthEast();
+  currentPoint.value = data.filter((it) => {
+    return it.lat >= minLat && it.lat <= maxLat
+      && it.lon >= minLng && it.lon <= maxLng ;
+  });
+}
 
 async function getData() {
   if (!data[level.value]) return [];
@@ -27,144 +41,120 @@ async function getData() {
   }
   return result.value[level.value];
 }
-let map: Nullable<L.Map> = null;
-const ynCity = new GeoJSON(yn_city as any, {
-  style() {
-    return {
-      color: 'red',
-    };
-  },
-}).setZIndex(10);
-const ynCounty = new GeoJSON(yn_county as any, {
-  style() {
-    return {
-      color: 'yellow',
-    };
-  },
-}).setZIndex(9);
+
 async function init() {
-  await nextTick();
-  const ynBorder = new GeoJSON(yn_border as any, {
+  const yn_county = (await axios.get('/geoJson/yn_county.json.gz', { responseType: 'json', decompress: true })).data;
+  const yn_city = (await axios.get('/geoJson/yn_city.json.gz', { responseType: 'json', decompress: true })).data;
+  const yn_border = (await axios.get('/geoJson/yn_border.json.gz', { responseType: 'json', decompress: true })).data;
+  ynBorder = new GeoJSON(yn_border, {
     style() {
       return {
-        color: 'pink',
-        weight: 10,
+        color: '#111',
+        weight: 1,
       };
     },
-  }).setZIndex(1111);
+  });
+  ynCity = new GeoJSON(yn_city, {
+    style() {
+      return {
+        color: '#111',
+        weight: 1,
 
+      };
+    },
+  });
+  ynCounty = new GeoJSON(yn_county, {
+    style() {
+      return {
+        color: '#999',
+        weight: 1,
+      };
+    },
+  });
   const b = ynBorder.getBounds();
   map = L.map(mapRef.value!, {
     zoomSnap: .01,
+    zoomDelta: .1,
     attributionControl: false,
   });
-  ynBorder.addTo(map);
-
-  const baseMaps = {
-    市边界: ynCity,
-    县边界: ynCounty,
-  };
-  // const layerControl = new L.Control.Layers({}, baseMaps, {
-  //   collapsed: false,
-  //   autoZIndex: false,
-  //   sortLayers: true,
-  //   // sortFunction(...arg) {
-  //   //   const [layerA, layerB, nameA, nameB] = arg;
-  //   //   console.log([nameA, nameB]);
-  //   //   if (nameA == '县边界') return 1;
-  //   //   return -1 ;
-  //   // },
-  // }).addTo(map);
-
+  yn_city_wrap.addTo(map);
+  yn_border_wrap.addTo(map);
+  yn_county_wrap.addTo(map);
+  //
+  yn_border_wrap.addLayer(ynBorder);
+  yn_city_wrap.addLayer(ynCity);
+  pointLayer.addTo(map);
+  let isFirst = false;
+  let minZoom = 0;
+  const zoomExcess = 4.5;
+  const maxLevel = 10;
   map.on('moveend', async () => {
-    level.value = 10;
+    const currentZoom = map!.getZoom();
+    if (!isFirst) {
+      isFirst = true;
+      minZoom = currentZoom;
+      map?.setMinZoom(minZoom);
+      map?.setMaxZoom(minZoom + zoomExcess);
+    }
+    const diff = currentZoom - minZoom;
+    const o = Math.round(diff / zoomExcess * (maxLevel - 1));
+    level.value = maxLevel - o;
+    await nextTick();
+    getBoundsPoints();
   });
 
   map.fitBounds(b, {
     padding: [20, 20],
   });
-  map?.setMinZoom(map.getZoom());
-  const lc = new LayerControl({ layers: baseMaps });
-  // lc.addTo(map);
+  isReady.value = true;
 }
-
-watch(currentPoint, draw, { deep: true });
 async function draw() {
+  if (!isReady.value) return;
+  await nextTick();
+  const ls = pointLayer.getLayers();
+  ls.forEach((e) => {
+    pointLayer.removeLayer(e);
+  });
   currentPoint.value.forEach((e) => {
     const m = new L.Marker([e.lat, e.lon], {
       icon: L.divIcon({
         className: 'my-div-icon',
-        html: `<span class='point'>${e.val.toFixed(2)}</span>`,
+        html: `<span class='m-point'>${e.val.toFixed(2)}</span>`,
       }),
-    }).addTo(map!);
+    });
+    pointLayer.addLayer(m);
   });
 }
 
 onMounted(init);
-const ynCityVisible = ref(false);
+watch([currentPoint, isReady], draw, { deep: true });
 const ynCountyVisible = ref(false);
 
-watch(ynCityVisible, (_ynCityVisible) => {
+watch(ynCountyVisible, (visible) => {
   if (!map) return;
-  if (_ynCityVisible)
-    ynCity.addTo(map);
-
+  if (!ynCounty) return;
+  if (visible)
+    yn_county_wrap.addLayer(ynCounty);
   else
-    ynCity.remove();
-});
-
-watch(ynCountyVisible, async (_ynCountyVisible) => {
-  if (!map) return;
-  if (_ynCountyVisible) {
-    if (ynCityVisible.value) {
-      ynCityVisible.value = false;
-      await nextTick();
-      ynCounty.addTo(map);
-      ynCityVisible.value = true;
-    }
-    else {
-      ynCounty.addTo(map);
-    }
-  }
-  else {
-    ynCounty.remove();
-  }
+    yn_county_wrap.removeLayer(ynCounty);
 });
 </script>
 
 <template>
-  <div>
-    <v-switch
-      v-model="ynCityVisible"
-      label="市边界"
-      color="primary"
-      value="primary"
-      hide-details
-      float
-    />
-    <v-switch
-      v-model="ynCountyVisible"
-      label="县边界"
-      color="primary"
-      value="primary"
-      hide-details
-      float
-    />
-  </div>
   <div ref="mapRef" class="map-container flex-fill">
   </div>
 </template>
 
 <style lang="scss">
 .map-container {
-  .point{
+  .m-point{
     position: relative;
-    font-size: 1em;
-    font-weight: 600;
+    font-size: 1.2em;
     display: inline-block;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+    font-weight: 600;
   }
 
   .my-div-icon{
