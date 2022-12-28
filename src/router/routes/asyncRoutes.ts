@@ -34,4 +34,12 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     component: () => import('@/views/pages/yn/index.vue'),
   },
+  {
+    path: 'home-button',
+    meta: {
+      title: 'home-button',
+      link: 'https://github.com/digidem/home-button',
+    },
+    component: () => import('@/views/pages/home-button/index.vue'),
+  },
 ];
